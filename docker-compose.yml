@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  # Base de données vectorielle ChromaDB
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: recipe_chromadb
+    ports:
+      - "8000:8000"
+    volumes:
+      - chroma_data:/chroma/chroma
+    environment:
+      - IS_PERSISTENT=TRUE
+      - ANONYMIZED_TELEMETRY=FALSE
+
+  # Service LLM & Embedding Ollama
+  ollama:
+    image: ollama/ollama:latest
+    container_name: recipe_ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+
+  # API
+  api:
+    build: .
+    container_name: recipe_rag_api
+    ports:
+      - "8080:8080"
+    environment:
+      - CHROMA_HOST=chromadb
+      - CHROMA_PORT=8000
+      - OLLAMA_BASE_URL=http://ollama:11434
+    depends_on:
+      - chromadb
+      - ollama
+    volumes:
+      - .:/app
+
+volumes:
+  chroma_data:
+  ollama_data:

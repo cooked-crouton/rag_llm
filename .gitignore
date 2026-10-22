@@ -1,0 +1,29 @@
+# Python / Virtual environment
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+env/
+
+# Environment variables & secrets
+.env
+*.env
+
+# Data & Database local stores
+data/
+chroma_db/
+*.sqlite3
+
+# CodeCarbon tracking logs
+emissions.csv
+
+# IDEs & Editors
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Docker logs
+*.log

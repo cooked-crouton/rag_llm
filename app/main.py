@@ -6,7 +6,10 @@ import logging
 from app.config import CHROMA_HOST, CHROMA_PORT, OLLAMA_BASE_URL
 from app.core.db import get_vector_store
 
+#Inclusion des routes
 from app.api.routes_ingestion import router as ingestion_router
+from app.api.routes_generation import router as generation_router
+from app.api.routes_rag import router as rag_router
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -57,12 +60,5 @@ def read_root():
 
 
 app.include_router(ingestion_router, prefix="/api/v1", tags=["Ingestion"])
-
-
-
-# Inclusions ultérieures des routes
-# from app.api.routes_generation import router as generation_router
-# from app.api.routes_rag import router as rag_router
-
-# app.include_router(generation_router, prefix="/api/v1", tags=["Generation"])
-# app.include_router(rag_router, prefix="/api/v1", tags=["RAG"])
+app.include_router(generation_router, prefix="/api/v1", tags=["Generation"])
+app.include_router(rag_router, prefix="/api/v1", tags=["RAG"])
